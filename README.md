@@ -1,130 +1,173 @@
 # ✨ AI Content Generator & Sentiment Analyzer (Gemini-powered)
 
-This project is a lightweight FastAPI application powered by **Google Gemini (gemini-2.5-flash)**. It allows users to:
+This project is a lightweight FastAPI application powered by **Google Gemini (gemini-2.5-flash)**. It enables users to:
 
-1. **Generate detailed content** based on a topic (e.g., "Django", "Climate Change", "AI in Education").
-2. **Analyze the sentiment** of any portion of that generated content (or any custom text).
+1. **Generate detailed content** on any topic (e.g., “Django”, “Climate Change”, “AI in Education”).
+2. **Analyze the sentiment** and readability of any selected portion of that content — or any custom input.
 
 ---
 
 ## 🚀 How It Works
 
-### 1. Generate Content
-- Submit a **topic** via the `/generate/` endpoint.
-- The app uses the **Gemini API** to generate a well-structured, detailed article related to the topic.
-- The generated article is stored and returned.
+### 1. 📚 Generate Content
+
+* Send a topic to the `/generate/` endpoint.
+* The app uses **Gemini API** to generate a well-structured, informative article.
+* The generated content is returned and stored in the database.
 
 #### 🔁 Example
-Request:
+
+**Request:**
+
 ```json
 {
-  "topic": "Fastapi as option for API development"
+  "topic": "FastAPI as an option for API development"
 }
-````
+```
 
-Response:
+**Response:**
 
 ```json
 {
-  "generated_text": "FastAPI: The Modern Python Powerhouse for Blazing-Fast API Development - 
-  In the ever-evolving landscape of web development, building robust..."
+  "generated_text": "FastAPI: The Modern Python Powerhouse for Blazing-Fast API Development — In the ever-evolving landscape of web development, building robust..."
 }
 ```
 
 ---
 
-### 2. Analyze Sentiment
+### 2. 🧠 Analyze Sentiment
 
-* Select a **portion** of the content (or any free-form paragraph).
+* Select a passage or paragraph from the content (or provide any text).
 * Submit it to the `/analyze/` endpoint.
 * The model returns:
 
-  * A **readability score** (basic rating).
-  * A **sentiment classification**: Positive, Neutral, or Negative.
-  * A short explanation of the result.
+  * A basic **readability score**.
+  * A **sentiment classification** (Positive, Neutral, or Negative).
+  * A **brief explanation** for the sentiment label.
 
-#### 🧠 Example
+#### 💬 Example
 
-Submitted content:
+**Input:**
 
 ```text
 "At its core, Django is a powerful, open-source web framework written in Python..."
 ```
 
-Response:
+**Response:**
 
 ```json
 {
   "readability": "Readability Score: Good",
-  "sentiment": "The sentiment of the text is overwhelmingly **positive**.
-
-Here's why:
-
-* **Strong Positive Adjectives/Nouns:** Powerhouse," "Blazing-Fast," "robust," "high-performance," "scalable," "paramount," "go-to language," "cutting-edge," "unparalleled," "leading contender."
-
+  "sentiment": "The sentiment of the text is **positive**.\n\nHere's why:\n\n* The text uses positive descriptive words like \"powerful\".\n* \"open-source\" is generally viewed positively.\n* \"well-known\" implies acceptance and trust.\n* The tone is clear, technical, and favorable."
 }
 ```
 
 ---
 
-## 🧪 Endpoints Summary
+## 🧪 Existing Endpoints
 
-| Method | Endpoint     | Description                          |
-| ------ | ------------ | ------------------------------------ |
-| GET   | `/`           | Landing page/Form |
-| POST   | `/generate/` | Generate content from a topic        |
-| POST   | `/analyze/`  | Analyze sentiment of a given passage |
+| Method | Endpoint     | Description                                |
+| ------ | ------------ | ------------------------------------------ |
+| GET    | `/`          | Landing form/test page                     |
+| POST   | `/generate/` | Generate article content based on topic    |
+| POST   | `/analyze/`  | Perform readability and sentiment analysis |
 
 ---
 
-## 🔧 Tech Stack
+## 🔮 Upcoming Features (Planned Endpoints)
 
-* **FastAPI** – Lightweight Python web framework
-* **Google Generative AI (Gemini 2.5 Flash)** – Content generation and NLP
-* **SQLAlchemy** – ORM for data persistence
-* **SQLite/PostgreSQL** – Database layer (configurable)
-* **Pydantic** – Schema validation
+| Method | Endpoint       | Description                                   |
+| ------ | -------------- | --------------------------------------------- |
+| POST   | `/summarize/`  | Summarize long-form generated content         |
+| POST   | `/keywords/`   | Extract keywords and concepts for SEO/tagging |
+| POST   | `/questions/`  | Auto-generate questions from the content      |
+| POST   | `/plagiarism/` | Check for originality or potential plagiarism |
+
+---
+
+## 🧵 Concurrency with Multithreading & Semaphore
+
+This app leverages Python's `threading` module and **semaphore control** to handle multiple concurrent requests efficiently.
+
+### Why Semaphore?
+
+```python
+semaphore = threading.Semaphore(5)
+```
+
+The semaphore ensures that **only 5 threads** can access the Gemini API at a time — preventing overloads or exceeding rate limits.
+
+### ✅ Benefits:
+
+* ⚡ **Improved Performance** – Allows concurrent handling of tasks.
+* 🔒 **Controlled Resource Access** – Avoids API throttling or failure.
+* 🧠 **Thread-Safe Gemini Integration** – Manages external calls gracefully.
+
+---
+
+## 🛠️ Tech Stack
+
+* **FastAPI** – Fast, intuitive Python web framework
+* **Google Generative AI (Gemini 2.5 Flash)** – For content generation and NLP
+* **SQLAlchemy** – ORM for database interactions
+* **SQLite / PostgreSQL** – Flexible database support
+* **Pydantic** – Schema validation and parsing
+* **Threading + Semaphore** – Efficient concurrent processing
 
 ---
 
 ## 🎓 Inspiration
 
-This project was inspired by **Zakari Yahali**, whose work encouraged the blending of generative AI with lightweight research and analysis tools.
+This project was inspired by **Zakari Yahali**, whose encouragement sparked the fusion of generative AI with simple, research-focused web tools. Zaks also suggested that this project could expand into broader NLP functionalities like summarization and question generation.
 
 ---
 
-## ⚙️ Setup Instructions
+## 🧰 Setup Instructions
 
 ```bash
-# Clone the repo
+# 1. Clone the repo
 git clone https://github.com/Sevenwings26/AI-Content-Generator-Sentiment-Analyzer-Gemini-powered.git
+cd AI-Content-Generator-Sentiment-Analyzer-Gemini-powered
 
-cd gemini-content-analyzer
-
-# Create virtual environment
+# 2. Set up a virtual environment
 python -m venv venv
-venv\Scripts\activate  # or source venv/bin/activate
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
 
-# Install dependencies
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# Create .env file
+# 4. Create a .env file
 echo "GEMINI_API_KEY=your_api_key_here" > .env
 
-# Run the app
+# 5. Run the app
 uvicorn main:app --reload
-
 ```
 
 ---
 
-## 📬 Contact / Feedback
+## 🧩 Folder Structure (Optional)
 
-For feedback or collaboration, feel free to reach out.
+```
+.
+├── App
+|   ├── crud.py
+|   ├── database.py
+|   ├── main.py
+|   ├── models.py
+|   ├── schemas.py
+|   ├── utility.py
+└── .env
+└── .gitignore
+└── README.md
+└── requirements.txt
+```
 
 ---
 
-```
+## 📬 Contact & Feedback
 
-Let me know if you'd like to add screenshots, a frontend client, or deployment instructions (e.g., Render or Docker).
-```
+* 📧 Email: [iarowosola@gmail.com](mailto:iarowosola@gmail.com)
+* 🔗 LinkedIn: [linkedin.com/in/iyanuarowosola](http://www.linkedin.com/in/iyanuarowosola)

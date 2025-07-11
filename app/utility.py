@@ -2,7 +2,7 @@ import os
 import threading
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
-import crud, models
+import crud
 import google.generativeai as genai
 
 # Load environment variables
@@ -51,7 +51,7 @@ def analyze_content(db: Session, content: str):
 def get_readability_score(content: str) -> str:
     return "Readability Score: Good"
 
-# Perform sentiment analysis using Gemini model
+# Perform sentiment analysis
 def get_sentiment_analysis(content: str) -> str:
     prompt = (
         f"Analyze the sentiment of the following text:\n\n{content}\n\n"
