@@ -6,3 +6,5 @@ class GeneratePayload(BaseModel):
 class AnalyzePayload(BaseModel):
     content: str
 
+class KeywordPayload(BaseModel):
+    content: str

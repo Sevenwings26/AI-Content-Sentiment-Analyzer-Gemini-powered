@@ -1,14 +1,14 @@
 import os
-import threading
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
 import crud
 import google.generativeai as genai
+import threading
 
-# Load environment variables
+# environment 
 load_dotenv()
 
-# Configure Gemini API
+# Gemini API configuration
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Initialize Gemini model
@@ -30,7 +30,6 @@ def generate_context(db: Session, topic: str):
 
         # Store generated text in the database
         crud.create_search_content(db, generate_text, search_term.id)
-
         return generate_text
 
 # Analyze content: readability + sentiment
@@ -59,6 +58,52 @@ def get_sentiment_analysis(content: str) -> str:
     )
     response = model.generate_content(prompt)
     return response.text.strip()
+
+
+# keywword extractor
+def get_keywords(db: Session, content: str) -> str:
+    with semaphore:
+        search_term = crud.get_search_term(db, content)
+        if not search_term:
+            search_term = crud.create_search_term(db, content)
+
+        prompt = (
+            f"You are a marketing strategist and SEO expert. Extract the most relevant and high-ranking keywords for SEO campaigns from the following content:\n\n{content}\n\n"
+            "Return them as a comma-separated list."
+        )
+        response = model.generate_content(prompt)
+        keywords_text = response.text.strip()
+
+        crud.create_keywords(db, keywords_text, search_term.id)
+
+        return keywords_text
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Perform content summary
+def get_content_summary(content: str) -> str:
+    prompt = (
+        f"Fetch keywords of the following text:\n\n{content}\n\n, for SEO optimaimizations"
+    )
+    response = model.generate_context(prompt)
+    return response
+
+
+
+
+
 
 
 

@@ -48,6 +48,10 @@
                         <a class="nav-link" href="#analysis-section">Analyze Content</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" 
+                        style="background-color: red; color: wheat;" href="#keyword-section">Keyword Content</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#result-section">Results</a>
                     </li>
                 </ul>
@@ -56,7 +60,6 @@
     </nav>
     <div class="container mt-5">
         <h1 class="mb-4 text-center">AI-Powered Content Generator and Analyzer</h1>
-
         <div id="content-section" class="form-section">
             <h2>Generate Content</h2>
             <form id="content-form">
@@ -73,10 +76,22 @@
             <form id="analyze-form">
                 <div class="form-group">
                     <label for="content">Enter Content for Analysis</label>
-                    <textarea class="form-control" id="content" rows="4" required></textarea>
+                    <textarea class="form-control" id="analyze-content" rows="4" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-tertiary">Analyze Content</button>
-                <button type="button" class="btn btn-secondary" id="import-content">Import Generated Content</button>
+                <button type="button" class="btn btn-secondary" id="import-content-analyze">Import Generated Content</button>
+            </form>
+        </div>
+
+        <div id="keyword-section" class="form-section">
+            <h2>Keywords content</h2>
+            <form id="keyword-form">
+                <div class="form-group">
+                    <label for="content">Enter Content</label>
+                    <textarea class="form-control" id="keywords-content" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-tertiary">Generate Keywords</button>
+                <button type="button" class="btn btn-secondary" id="import-content-keywords">Import Generated Content</button>
             </form>
         </div>
 
@@ -85,6 +100,10 @@
             <div class="mb-4">
                 <h3>Generated Content</h3>
                 <p id="generated-content"></p>
+            </div>
+            <div class="mb-4">
+                <h3>Generated Keywords</h3>
+                <p id="generated-keywords"></p>
             </div>
             <div>
                 <h3>Analysis Results</h3>
@@ -96,11 +115,11 @@
         </div>
     </div>
     <script>
+        // Content
         document.getElementById('content-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const topic = document.getElementById('topic').value;
             const payload = { topic: topic };
-
             const response = await fetch('/generate/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -110,6 +129,7 @@
             document.getElementById('generated-content').innerText = data.generated_text;
         });
 
+        // sentiment analysis
         document.getElementById('analyze-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const content = document.getElementById('content').value;
@@ -125,10 +145,32 @@
             document.getElementById('sentiment').innerText = data.sentiment;
         });
 
-        document.getElementById('import-content').addEventListener('click', () => {
-            const generatedContent = document.getElementById('generated-content').innerText;
-            document.getElementById('content').value = generatedContent;
+        // keywords 
+        document.getElementById('keyword-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const content = document.getElementById('keywords-content').value;
+            const payload = { content: content };
+
+            const response = await fetch('/keywords/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            document.getElementById('generated-keywords').innerText = data.keywords;
         });
+
+        // parse content 
+        document.getElementById('import-content-analyze').addEventListener('click', () => {
+            const generatedContent = document.getElementById('generated-content').innerText;
+            document.getElementById('analyze-content').value = generatedContent;
+        });
+        
+        document.getElementById('import-content-keywords').addEventListener('click', () => {
+            const generatedContent = document.getElementById('generated-content').innerText;
+            document.getElementById('keywords-content').value = generatedContent;
+        });
+
     </script>
 </body>
 </html>
