@@ -71,6 +71,7 @@ This project is a lightweight FastAPI application powered by **Google Gemini (ge
 | GET    | `/`          | Landing form/test page                     |
 | POST   | `/generate/` | Generate article content based on topic    |
 | POST   | `/analyze/`  | Perform readability and sentiment analysis |
+| POST   | `/keywords/`  | Extract keywords and concepts for SEO/tagging |
 
 ---
 
@@ -79,7 +80,6 @@ This project is a lightweight FastAPI application powered by **Google Gemini (ge
 | Method | Endpoint       | Description                                   |
 | ------ | -------------- | --------------------------------------------- |
 | POST   | `/summarize/`  | Summarize long-form generated content         |
-| POST   | `/keywords/`   | Extract keywords and concepts for SEO/tagging |
 | POST   | `/questions/`  | Auto-generate questions from the content      |
 | POST   | `/plagiarism/` | Check for originality or potential plagiarism |
 
