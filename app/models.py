@@ -9,8 +9,8 @@ class SearchTerm(Base):
     __tablename__ = "search_terms"
 
     id = Column(Integer, primary_key=True, index=True)  # Unique ID for each search term
-    term = Column(String, index=True)  # The actual search/topic term
-    # Relationships to link this term with other table.
+    term = Column(String(2000), index=True)  # PostgreSQL’s B-tree index limit is ~2700 bytes per row... The actual search/topic term
+    # Relationships to link this term with other table. -  
     generated_content = relationship("GeneratedContent", back_populates="search_term")
     sentiment_analysis = relationship("SentimentAnalysis", back_populates="search_term")
     generated_keywords = relationship("GeneratedKeywords", back_populates="search_term")

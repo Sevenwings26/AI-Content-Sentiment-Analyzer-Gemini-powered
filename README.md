@@ -4,6 +4,7 @@ This project is a lightweight FastAPI application powered by **Google Gemini (ge
 
 1. **Generate detailed content** on any topic (e.g., “Django”, “Climate Change”, “AI in Education”).
 2. **Analyze the sentiment** and readability of any selected portion of that content — or any custom input.
+2. **Generate keywords** on any content for SEOs and marketking campaigns.
 
 ---
 
@@ -63,6 +64,31 @@ This project is a lightweight FastAPI application powered by **Google Gemini (ge
 ```
 
 ---
+### 3. 🗝 Keywords Generator
+
+* Select a passage or paragraph from the content (or provide any text).
+* Submit it to the `/keywords/` endpoint.
+* The model returns:
+
+  * A detailed group of **keywords**.
+
+#### 💬 Example
+
+**Input:**
+
+```text
+" The AI Agent Engineer Roadmap: Charting Your Course in the Autonomous Future..."
+```
+
+**Response:**
+
+```json
+{
+  "generated_keywords": "AI Agent Engineer, AI agents, Autonomous AI systems, AI Agent Engineer roadmap, Become an AI Agent Engineer, AI Agent Engineer career, AI Agent Engineer skills, Python for AI, AI agent maintenance, Machine Learning Engineer vs AI Agent Engineer,..."
+}
+```
+
+---
 
 ## 🧪 Existing Endpoints
 
@@ -113,6 +139,15 @@ The semaphore ensures that **only 5 threads** can access the Gemini API at a tim
 * **SQLite / PostgreSQL** – Flexible database support
 * **Pydantic** – Schema validation and parsing
 * **Threading + Semaphore** – Efficient concurrent processing
+* **Alembic** – Flexible DB migration support
+
+---
+
+## 🏡 Database Migration
+* Run on terminal:
+  `pip install alembic`
+  `alembic upgrade head`
+  `alembic revision --autogenerate -m "migration"`
 
 ---
 
