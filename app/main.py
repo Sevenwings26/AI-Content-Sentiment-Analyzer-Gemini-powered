@@ -1,10 +1,13 @@
 from fastapi import FastAPI, Request, Depends
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
-from app import schemas, models, database, crud, utility
+from fastapi.responses import HTMLResponse
+from app import schemas, models, database, utility
 from fastapi.middleware.cors import CORSMiddleware
 # threading module
 from starlette.concurrency import run_in_threadpool
+from pathlib import Path
+
 
 # create app 
 app = FastAPI()
@@ -22,7 +25,9 @@ app.add_middleware(
 models.Base.metadata.create_all(bind=database.engine)
 
 # template configuration
-templates = Jinja2Templates(directory="templates")
+# templates = Jinja2Templates(directory="templates")
+BASE_DIR = Path(__file__).resolve().parent
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 # load database 
 def get_db():
@@ -34,7 +39,7 @@ def get_db():
 
 # routes
 # get
-@app.get('/')
+@app.get('/', response_class=HTMLResponse)
 def read_root(request: Request):
     # render
     return templates.TemplateResponse('index.html', {"request": request})
