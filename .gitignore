@@ -7,9 +7,9 @@ __pycache__/
 socialpost.txt
 /virt
 
-app/testgemini
 
 app/testgemini.py
+app/senti.db
 
 # C extensions
 *.so
