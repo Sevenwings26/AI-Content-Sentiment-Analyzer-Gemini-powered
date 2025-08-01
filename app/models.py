@@ -1,19 +1,37 @@
 from sqlalchemy import Column, Integer, String, Text, JSON, ForeignKey 
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+import hashlib
 
 Base = declarative_base()
 
-# Table to store each unique search/topic term entered by the user.
+# # Table to store each unique search/topic term entered by the user.
+# class SearchTerm(Base):
+#     __tablename__ = "search_terms"
+
+#     id = Column(Integer, primary_key=True, index=True)  # Unique ID for each search term
+#     term = Column(String(2000), index=True)  # PostgreSQL’s B-tree index limit is ~2700 bytes per row... The actual search/topic term
+#     # Relationships to link this term with other table. -  
+#     generated_content = relationship("GeneratedContent", back_populates="search_term")
+#     sentiment_analysis = relationship("SentimentAnalysis", back_populates="search_term")
+#     generated_keywords = relationship("GeneratedKeywords", back_populates="search_term")
+
+
 class SearchTerm(Base):
     __tablename__ = "search_terms"
 
-    id = Column(Integer, primary_key=True, index=True)  # Unique ID for each search term
-    term = Column(String(2000), index=True)  # PostgreSQL’s B-tree index limit is ~2700 bytes per row... The actual search/topic term
-    # Relationships to link this term with other table. -  
+    id = Column(Integer, primary_key=True, index=True)
+    term = Column(String())  # Long string NOT indexed
+    term_hash = Column(String(32), index=True)  # Safe hashed value
+
     generated_content = relationship("GeneratedContent", back_populates="search_term")
     sentiment_analysis = relationship("SentimentAnalysis", back_populates="search_term")
     generated_keywords = relationship("GeneratedKeywords", back_populates="search_term")
+
+    def __init__(self, term):
+        self.term = term
+        self.term_hash = hashlib.md5(term.encode('utf-8')).hexdigest()
+
 
 
 # Table to store AI-generated content for a given search term.
