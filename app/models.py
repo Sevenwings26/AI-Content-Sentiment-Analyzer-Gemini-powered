@@ -21,8 +21,8 @@ class SearchTerm(Base):
     __tablename__ = "search_terms"
 
     id = Column(Integer, primary_key=True, index=True)
-    term = Column(String())  # Long string NOT indexed
-    term_hash = Column(String(32), index=True)  # Safe hashed value
+    term = Column(Text)  # Long string NOT indexed
+    term_hash = Column(String(64), index=True)  # Safe hashed value
 
     generated_content = relationship("GeneratedContent", back_populates="search_term")
     sentiment_analysis = relationship("SentimentAnalysis", back_populates="search_term")
