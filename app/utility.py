@@ -1,7 +1,7 @@
 import os
 from sqlalchemy.orm import Session
 from dotenv import load_dotenv
-import crud
+from app import crud
 import google.generativeai as genai
 import threading
 

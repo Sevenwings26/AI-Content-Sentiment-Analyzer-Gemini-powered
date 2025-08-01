@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-import models
+from app import models
 
 
 # Create a new SearchTerm entry in the database - topic

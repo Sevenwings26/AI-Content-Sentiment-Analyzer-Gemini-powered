@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Depends
 from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
-import schemas, models, database, crud, utility
+from app import schemas, models, database, crud, utility
 from fastapi.middleware.cors import CORSMiddleware
 # threading module
 from starlette.concurrency import run_in_threadpool
