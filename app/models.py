@@ -28,11 +28,6 @@ class SearchTerm(Base):
     sentiment_analysis = relationship("SentimentAnalysis", back_populates="search_term")
     generated_keywords = relationship("GeneratedKeywords", back_populates="search_term")
 
-    # def __init__(self, term):
-    #     self.term = term
-    #     self.term_hash = hashlib.md5(term.encode('utf-8')).hexdigest()
-
-
 
 # Table to store AI-generated content for a given search term.
 class GeneratedContent(Base):
